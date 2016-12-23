@@ -1,6 +1,5 @@
 angular.module('starter.controllers', ['ngCordova','starter.services'])
-.controller('SigninCtrl', function($scope, firebaseService, userService, stateProvider) {
-	console.log(firebaseService);
+.controller('SigninCtrl', function($scope, firebaseService, userService, $location, $rootScope) {
 	var firebase =  {
 	     apiKey: "AIzaSyAuDjUfXcS056IJnyP6qyqSbCFADEE6IWw",
 	     authDomain: "intechnica-register.firebaseapp.com",
@@ -10,8 +9,7 @@ angular.module('starter.controllers', ['ngCordova','starter.services'])
 	     entityKey: "clockins",
          usersKey: "users"
    };
-	load();
-
+   $rootScope.$on('ionicLoaded',load)
 
 	function load() {
 	     var list = firebaseService.initialize(firebase.entityKey);
@@ -32,12 +30,15 @@ angular.module('starter.controllers', ['ngCordova','starter.services'])
 	     			var getById = firebaseService.getById(id,cb);
 		     		if(getById && getById.userId == userService.getUserId()){
 		     			console.log("Found yourself");
-                        var userList = firebase.initialize(firebase.usersKey);
-                        userlist.$loaded.then(function (list) {
-                            firebaseService.findKey('userId', $scope.token, list)
-                            .then($.noop())
+                        var userList = firebaseService.initialize(firebase.usersKey);
+                        userList.$loaded().then(function (list) {
+                            firebaseService.findKey('userId', $rootScope.token, list)
+                            .then(function(userFound){
+                            	if(!userFound.firstName)
+                            		$location.path('/tab/account');
+                            })
                             .catch(function () {
-                                location.path = '/account';
+                                
                             });
                         });
 		     		}

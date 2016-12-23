@@ -35,6 +35,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
     var uuid = window.device.uuid;
 
     $rootScope.token = userService.getUserId() + "|" + uuid;
+
+    $rootScope.$broadcast("ionicLoaded");
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
