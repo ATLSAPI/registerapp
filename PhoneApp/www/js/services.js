@@ -10,15 +10,16 @@ angular.module('starter.services', [])
 .factory('firebaseService', function($q, $firebaseArray) {
 
     var objectArray = [];
- var service = {};
+    var service = {};
 
-  return{
-    initialize : initialize,
- getAll : getAll,
- create : create,
- getById : getById,
- findDevice : findDevice
-  };
+    return{
+        initialize : initialize,
+        getAll : getAll,
+        create : create,
+        getById : getById,
+        findDevice : findDevice,
+        findKey: findKey
+    };
 
  
 
@@ -61,6 +62,21 @@ angular.module('starter.services', [])
          deferred.reject(false);
        }
      });
+
+     return deferred.promise;
+   }
+
+function findKey(key, value, array) {
+     var deferred = $q.defer();
+     array.$ref().orderByChild(key).equalTo(value)
+       .once("value", function(dataSnapshot) {
+         var objectFound = dataSnapshot.val();
+         if (objectFound) {
+           deferred.resolve(objectFound);
+         } else {
+           deferred.reject(false);
+         }
+       });
 
      return deferred.promise;
    }

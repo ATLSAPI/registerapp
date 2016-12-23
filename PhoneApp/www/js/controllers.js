@@ -1,5 +1,5 @@
 angular.module('starter.controllers', ['ngCordova','starter.services'])
-.controller('SigninCtrl', function($scope, firebaseService, userService) {
+.controller('SigninCtrl', function($scope, firebaseService, userService, stateProvider) {
 	console.log(firebaseService);
 	var firebase =  {
 	     apiKey: "AIzaSyAuDjUfXcS056IJnyP6qyqSbCFADEE6IWw",
@@ -7,8 +7,9 @@ angular.module('starter.controllers', ['ngCordova','starter.services'])
 	     databaseURL: "https://intechnica-register.firebaseio.com",
 	     storageBucket: "intechnica-register.appspot.com",
 	     messagingSenderId: "783060087254",
-	     entityKey: "clockins"
-   }
+	     entityKey: "clockins",
+         usersKey: "users"
+   };
 	load();
 
 
@@ -31,6 +32,14 @@ angular.module('starter.controllers', ['ngCordova','starter.services'])
 	     			var getById = firebaseService.getById(id,cb);
 		     		if(getById && getById.userId == userService.getUserId()){
 		     			console.log("Found yourself");
+                        var userList = firebase.initialize(firebase.usersKey);
+                        userlist.$loaded.then(function (list) {
+                            firebaseService.findKey('userId', $scope.token, list)
+                            .then($.noop())
+                            .catch(function () {
+                                location.path = '/account';
+                            });
+                        });
 		     		}
 	     		});
 
@@ -39,12 +48,12 @@ angular.module('starter.controllers', ['ngCordova','starter.services'])
 	   }
 })
 .controller('AccountCtrl', function($scope) {
-	$scope.firstName = "JACK";
-	$scope.surname = "SCOTSON";
-  $scope.updateUser = function(accountForm){
+    $scope.user = { firstName: "JACK",
+                    surname: "SCOTSON" };
+  $scope.updateUser = function(){
       console.log(accountForm);
-      console.log("Firstname: ", accountForm.firstName.$modelValue);
-      console.log("surname: ", accountForm.surname.$modelValue);
+      console.log("Firstname: ", $scope.user.firstName);
+      console.log("surname: ", $scope.user.surname);
       console.log("token: ", $scope.token);
-    }
+    };
 });

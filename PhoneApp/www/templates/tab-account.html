@@ -2,20 +2,19 @@
   <ion-content>
     <form name="accountForm"  ng-submit="updateUser(accountForm)">
     	<ion-list>
-    		<input type="hidden" name="userId" value="{{token}}" ng-value="token">
+    		<input type="hidden" name="userId" value="{{token}}">
 		    <label class="item item-input">
 			  <span class="input-label">Firstname</span>
-			  <input type="text" name="firstName" ng-value="firstName" ng-model="firstName">
+			  <input type="text" name="firstName" ng-model="user.firstName">
 			</label>
 			<label class="item item-input">
 			  <span class="input-label">Surname</span>
-			  <input type="text" name="surname" ng-value="surname" ng-model="surname">
+			  <input type="text" name="surname" ng-model="user.surname">
 			</label>
     	</ion-list>
     	<ion-input class="item-input padding">
 		  <input type="submit" class="button button-positive" value="Save" >
 		</ion-input>
     </form>
-
   </ion-content>
 </ion-view>
