@@ -18,7 +18,8 @@ angular.module('starter.services', [])
         create : create,
         getById : getById,
         findDevice : findDevice,
-        findKey: findKey
+        findKey: findKey,
+        update: update
     };
 
  

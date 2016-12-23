@@ -33,7 +33,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
   
   $ionicPlatform.ready(function() {
     var uuid = window.device.uuid;
-
     $rootScope.token = userService.getUserId() + "|" + uuid;
 
     $rootScope.$broadcast("ionicLoaded");
